@@ -1,6 +1,7 @@
 package com.v2ray.ang.ui.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +56,6 @@ import com.v2ray.ang.extension.isComplexType
 import com.v2ray.ang.extension.nullIfBlank
 import com.v2ray.ang.handler.AngConfigManager
 import com.v2ray.ang.handler.MmkvManager
-import com.v2ray.ang.ui.compose.ItemDivider
 import com.v2ray.ang.ui.compose.ReorderableGridItem
 import com.v2ray.ang.ui.compose.ReorderableListItem
 import com.v2ray.ang.ui.compose.colorConfigType
@@ -221,7 +222,6 @@ private fun ServerListPage(
                                 onRemoveServer = onRemoveServer
                             )
                         }
-                        ItemDivider()
                     }
                 } else {
                     ServerItemRow(
@@ -234,7 +234,6 @@ private fun ServerListPage(
                         onMoreServer = onMoreServer,
                         onRemoveServer = onRemoveServer
                     )
-                    ItemDivider()
                 }
             }
         }
@@ -323,23 +322,20 @@ private fun ServerItemColumn(
     val subRemarks = if (subscriptionId.isEmpty()) {
         MmkvManager.decodeSubscription(profile.subscriptionId)?.remarks?.firstOrNull()?.toString() ?: ""
     } else ""
-    Column {
-        ServerListItem(
-            remarks = profile.remarks,
-            statistics = profile.description.nullIfBlank() ?: AngConfigManager.generateDescription(profile),
-            typeDescription = getProtocolDescription(profile),
-            testDelayMillis = serverCache.testDelayMillis,
-            isSelected = serverCache.guid == selectedGuid,
-            subscriptionRemarks = subRemarks,
-            doubleColumnDisplay = doubleColumnDisplay,
-            onClick = { onSelectServer(serverCache.guid) },
-            onEdit = { onEditServer(serverCache.guid, profile) },
-            onShare = { onShareServer(serverCache.guid, profile) },
-            onRemove = { onRemoveServer(serverCache.guid) },
-            onMore = { onMoreServer(serverCache.guid, profile) }
-        )
-        ItemDivider()
-    }
+    ServerListItem(
+        remarks = profile.remarks,
+        statistics = profile.description.nullIfBlank() ?: AngConfigManager.generateDescription(profile),
+        typeDescription = getProtocolDescription(profile),
+        testDelayMillis = serverCache.testDelayMillis,
+        isSelected = serverCache.guid == selectedGuid,
+        subscriptionRemarks = subRemarks,
+        doubleColumnDisplay = doubleColumnDisplay,
+        onClick = { onSelectServer(serverCache.guid) },
+        onEdit = { onEditServer(serverCache.guid, profile) },
+        onShare = { onShareServer(serverCache.guid, profile) },
+        onRemove = { onRemoveServer(serverCache.guid) },
+        onMore = { onMoreServer(serverCache.guid, profile) }
+    )
 }
 
 @Composable
@@ -369,41 +365,52 @@ fun ServerListItem(
     } else {
         null
     }
+    val cardShape = RoundedCornerShape(16.dp)
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 5.dp)
             .height(IntrinsicSize.Min)
             .semantics {
                 if (selectedStateDescription != null) {
                     stateDescription = selectedStateDescription
                 }
             }
+            .clip(cardShape)
+            .background(
+                if (isSelected) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainer
+                }
+            )
+            .border(
+                width = if (isSelected) 1.5.dp else 1.dp,
+                color = if (isSelected) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.55f)
+                } else {
+                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                },
+                shape = cardShape
+            )
             .clickable(onClick = onClick)
             .then(dragModifier)
     ) {
-        Box(
-            Modifier
-                .width(10.dp)
-                .fillMaxHeight()
-        ) {
-            if (isSelected) {
-                Row {
-                    Spacer(Modifier.width(6.dp))
-                    Box(
-                        Modifier
-                            .width(4.dp)
-                            .fillMaxHeight()
-                            .padding(vertical = 10.dp)
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
-                }
-            }
+        if (isSelected) {
+            Box(
+                Modifier
+                    .width(4.dp)
+                    .fillMaxHeight()
+                    .padding(vertical = 12.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(MaterialTheme.colorScheme.primary)
+            )
         }
 
         Column(
             Modifier
                 .weight(1f)
-                .padding(start = 8.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
+                .padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 10.dp)
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(remarks, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge.copy(lineBreak = LineBreak.Paragraph), maxLines = 2, overflow = TextOverflow.Ellipsis)

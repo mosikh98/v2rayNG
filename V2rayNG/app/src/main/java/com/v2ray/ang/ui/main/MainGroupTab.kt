@@ -1,19 +1,23 @@
 package com.v2ray.ang.ui.main
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryScrollableTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.v2ray.ang.dto.GroupMapItem
@@ -28,31 +32,18 @@ fun GroupTabBar(
     onTabClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    PrimaryScrollableTabRow(
-        selectedTabIndex = selectedTabIndex.coerceIn(0, groups.lastIndex),
-        modifier = modifier.fillMaxWidth(),
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        edgePadding = 16.dp,
-        minTabWidth = 56.dp,
-        indicator = {
-            TabRowDefaults.PrimaryIndicator(
-                modifier = Modifier
-                    .tabIndicatorOffset(
-                        selectedTabIndex = selectedTabIndex.coerceIn(0, groups.lastIndex),
-                        matchContentSize = true
-                    )
-                    .clip(RoundedCornerShape(3.dp)),
-                width = Dp.Unspecified,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        },
-        divider = {}
+    val coercedIndex = selectedTabIndex.coerceIn(0, groups.lastIndex)
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        groups.forEachIndexed { index, group ->
-            GroupTabItem(
+        items(items = groups.withIndex().toList(), key = { it.value.id }) { (index, group) ->
+            GroupTabPill(
                 group = group,
-                selected = index == selectedTabIndex,
+                selected = index == coercedIndex,
                 serverFlowProvider = { mainViewModel.serversForGroup(group.id) },
                 onClick = { onTabClick(index) }
             )
@@ -61,7 +52,7 @@ fun GroupTabBar(
 }
 
 @Composable
-private fun GroupTabItem(
+private fun GroupTabPill(
     group: GroupMapItem,
     selected: Boolean,
     serverFlowProvider: () -> StateFlow<List<ServersCache>>,
@@ -69,21 +60,34 @@ private fun GroupTabItem(
 ) {
     val serverFlow = remember(group.id) { serverFlowProvider() }
     val servers by serverFlow.collectAsStateWithLifecycle()
-    Tab(
-        selected = selected,
-        onClick = onClick,
-        text = {
-            val text = if (group.id.isEmpty()) {
-                group.remarks
-            } else {
-                "${group.remarks} (${servers.size})"
-            }
-            Text(
-                text = text,
-                maxLines = 1,
-                softWrap = false,
-                overflow = TextOverflow.Ellipsis
+    val text = if (group.id.isEmpty()) {
+        group.remarks
+    } else {
+        "${group.remarks} (${servers.size})"
+    }
+    val shape = RoundedCornerShape(20.dp)
+    Text(
+        text = text,
+        maxLines = 1,
+        softWrap = false,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+        color = if (selected) {
+            MaterialTheme.colorScheme.onSecondary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
+        style = MaterialTheme.typography.labelLarge,
+        modifier = Modifier
+            .clip(shape)
+            .background(
+                if (selected) {
+                    MaterialTheme.colorScheme.secondary
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainer
+                }
             )
-        }
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     )
 }
