@@ -48,7 +48,6 @@ import com.v2ray.ang.ui.compose.AppDivider
 import com.v2ray.ang.ui.compose.AppDropdownMenuItems
 import com.v2ray.ang.ui.compose.AppListItem
 import com.v2ray.ang.ui.compose.AppTopBar
-import com.v2ray.ang.ui.compose.ItemDivider
 import com.v2ray.ang.ui.compose.colorFabActive
 import com.v2ray.ang.ui.compose.NavigationBarsBottomPadding
 import com.v2ray.ang.ui.compose.verticalScrollbar
@@ -277,7 +276,6 @@ fun PerAppProxyScreen(
                         checked = checked,
                         onCheckedChange = { onToggleApp(app.packageName) }
                     )
-                    ItemDivider()
                 }
             }
         }

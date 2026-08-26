@@ -369,7 +369,7 @@ fun ServerListItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 5.dp)
+            .padding(horizontal = 12.dp, vertical = 4.dp)
             .height(IntrinsicSize.Min)
             .semantics {
                 if (selectedStateDescription != null) {
@@ -410,57 +410,57 @@ fun ServerListItem(
         Column(
             Modifier
                 .weight(1f)
-                .padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 10.dp)
+                .padding(start = 12.dp, end = 8.dp, top = 7.dp, bottom = 7.dp)
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(remarks, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge.copy(lineBreak = LineBreak.Paragraph), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 if (doubleColumnDisplay) {
-                    IconButton(onClick = onMore, Modifier.size(36.dp)) {
+                    IconButton(onClick = onMore, Modifier.size(32.dp)) {
                         Icon(
                             painterResource(R.drawable.ic_more_vert_24dp),
                             stringResource(R.string.acc_more),
-                            Modifier.size(24.dp)
+                            Modifier.size(20.dp)
                         )
                     }
                 } else {
-                    IconButton(onClick = onShare, Modifier.size(36.dp)) {
+                    IconButton(onClick = onShare, Modifier.size(32.dp)) {
                         Icon(
                             painterResource(R.drawable.ic_share_24dp),
                             stringResource(R.string.title_configuration_share),
-                            Modifier.size(24.dp)
+                            Modifier.size(20.dp)
                         )
                     }
-                    IconButton(onClick = onEdit, Modifier.size(36.dp)) {
+                    IconButton(onClick = onEdit, Modifier.size(32.dp)) {
                         Icon(
                             painterResource(R.drawable.ic_edit_24dp),
                             stringResource(R.string.acc_edit),
-                            Modifier.size(24.dp)
+                            Modifier.size(20.dp)
                         )
                     }
-                    IconButton(onClick = onRemove, Modifier.size(36.dp)) {
+                    IconButton(onClick = onRemove, Modifier.size(32.dp)) {
                         Icon(
                             painterResource(R.drawable.ic_delete_24dp),
                             stringResource(R.string.acc_delete),
-                            Modifier.size(24.dp)
+                            Modifier.size(20.dp)
                         )
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 if (subscriptionRemarks.isNotBlank()) {
                     Box(
                         Modifier
-                            .size(24.dp)
+                            .size(20.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)), Alignment.Center
                     ) {
-                        Text(subscriptionRemarks.take(1).uppercase(), fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                        Text(subscriptionRemarks.take(1).uppercase(), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                     }
                 }
                 Text(statistics, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(typeDescription, style = MaterialTheme.typography.bodySmall, color = colorConfigType, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(testResult, style = MaterialTheme.typography.bodySmall, color = if (testDelayMillis < 0L) colorPingRed else colorPing, maxLines = 1, overflow = TextOverflow.Ellipsis)

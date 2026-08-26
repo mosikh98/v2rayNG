@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Checkbox
@@ -41,6 +44,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -167,11 +172,19 @@ fun AppListItem(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val cardShape = RoundedCornerShape(14.dp)
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 3.dp)
+            .clip(cardShape)
+            .background(
+                if (checked) MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                else MaterialTheme.colorScheme.surfaceContainer
+            )
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), cardShape)
             .clickable { onCheckedChange(!checked) }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val model = remember(icon, packageName) {
@@ -189,20 +202,21 @@ fun AppListItem(
         AsyncImage(
             model = model,
             contentDescription = null,
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier
+                .size(34.dp)
+                .clip(RoundedCornerShape(9.dp)),
             contentScale = ContentScale.Fit,
             error = painterResource(R.drawable.ic_image_24dp),
             fallback = painterResource(R.drawable.ic_image_24dp)
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = appName,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = packageName,
                 style = MaterialTheme.typography.bodySmall,
@@ -214,6 +228,7 @@ fun AppListItem(
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
+            modifier = Modifier.scale(0.85f),
             colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.secondary)
         )
     }

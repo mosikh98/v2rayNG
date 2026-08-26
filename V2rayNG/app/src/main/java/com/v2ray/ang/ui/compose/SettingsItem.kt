@@ -1,5 +1,7 @@
 package com.v2ray.ang.ui.compose
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -21,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
@@ -38,7 +42,7 @@ fun PreferenceGroupHeader(title: String, modifier: Modifier = Modifier) {
         color = MaterialTheme.colorScheme.secondary,
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 6.dp)
     )
 }
 
@@ -53,7 +57,7 @@ fun CollapsiblePreferenceGroupHeader(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onExpandedChange(!expanded) }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -87,31 +91,36 @@ private fun SettingsItemRow(
     else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
     val descriptionColor = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant
     else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+    val cardShape = RoundedCornerShape(14.dp)
 
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 3.dp)
+            .clip(cardShape)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), cardShape)
             .then(if (onClick != null) Modifier.clickable(enabled = enabled, onClick = onClick) else Modifier)
-            .padding(16.dp),
+            .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
             Icon(
                 painter = icon,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(22.dp),
                 tint = titleColor
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(14.dp))
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 color = titleColor
             )
             if (!description.isNullOrEmpty()) {
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
