@@ -33,12 +33,12 @@ private enum class ImportMenuAction(
     Hysteria2(R.string.menu_item_import_config_manually_hysteria2, MainAction.ImportManually(EConfigType.HYSTERIA2.value), "H2", MenuAccentCategory.Protocol)
 }
 
-private enum class MenuAccentCategory { Import, Group, Protocol, Destructive, Test, Neutral }
+enum class MenuAccentCategory { Import, Group, Protocol, Destructive, Test, Neutral }
 
 enum class MainMoreMenuAction(
     @StringRes val labelRes: Int,
     val monogram: String,
-    private val category: MenuAccentCategory
+    val category: MenuAccentCategory
 ) {
     RestartService(R.string.title_service_restart, "R", MenuAccentCategory.Neutral),
     DeleteAll(R.string.title_del_all_config, "D", MenuAccentCategory.Destructive),
@@ -49,9 +49,7 @@ enum class MainMoreMenuAction(
     SortByTestResults(R.string.title_sort_by_test_results, "S", MenuAccentCategory.Test),
     TestAll(R.string.title_ping_all_server, "T", MenuAccentCategory.Test),
     TestAllRealPing(R.string.title_real_ping_all_server, "T", MenuAccentCategory.Test),
-    UpdateSubscriptions(R.string.title_sub_update, "U", MenuAccentCategory.Neutral);
-
-    internal fun accentCategory() = category
+    UpdateSubscriptions(R.string.title_sub_update, "U", MenuAccentCategory.Neutral)
 }
 
 @Composable
@@ -87,18 +85,18 @@ internal fun serverMenuActions(
 fun ImportMenuContent(onAction: (MainAction) -> Unit) = AppDropdownMenuItems(
     items = ImportMenuAction.entries,
     labelRes = { it.labelRes },
-    onSelected = { onAction(it.action) },
     monogram = { it.monogram },
-    accentColor = { it.category.toColor() }
+    accentColor = { it.category.toColor() },
+    onSelected = { onAction(it.action) }
 )
 
 @Composable
 fun MoreMenuContent(onSelected: (MainMoreMenuAction) -> Unit) = AppDropdownMenuItems(
     items = MainMoreMenuAction.entries,
     labelRes = { it.labelRes },
-    onSelected = onSelected,
     monogram = { it.monogram },
-    accentColor = { it.accentCategory().toColor() }
+    accentColor = { it.category.toColor() },
+    onSelected = onSelected
 )
 
 @Composable

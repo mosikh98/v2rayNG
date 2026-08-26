@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 fun <T> AppDropdownMenuItems(
     items: List<T>,
     labelRes: (T) -> Int,
-    onSelected: (T) -> Unit,
     monogram: ((T) -> String)? = null,
-    accentColor: ((T) -> Color)? = null,
+    accentColor: (@Composable (T) -> Color)? = null,
+    onSelected: (T) -> Unit,
 ) {
     items.forEach { item ->
         DropdownMenuItem(
