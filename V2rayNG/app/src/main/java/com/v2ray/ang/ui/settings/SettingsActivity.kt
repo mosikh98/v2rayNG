@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,12 +38,15 @@ import com.v2ray.ang.root.RootManager
 import com.v2ray.ang.ui.base.BaseComponentActivity
 import com.v2ray.ang.ui.compose.AppTopBar
 import com.v2ray.ang.ui.compose.CollapsiblePreferenceGroupHeader
+import com.v2ray.ang.ui.compose.ColorPickerDialog
 import com.v2ray.ang.ui.compose.NavigationBarsSpacer
+import com.v2ray.ang.ui.compose.PreferenceGroupHeader
 import com.v2ray.ang.ui.compose.SettingsEditItem
 import com.v2ray.ang.ui.compose.SettingsListItem
 import com.v2ray.ang.ui.compose.SettingsMenuItem
 import com.v2ray.ang.ui.compose.SettingsSwitchItem
 import com.v2ray.ang.ui.compose.ThemeManager
+import com.v2ray.ang.ui.compose.colorPing
 import com.v2ray.ang.ui.compose.verticalScrollbar
 import com.v2ray.ang.util.Utils
 
@@ -269,6 +273,97 @@ fun SettingsScreen(
                         ThemeManager.setThemeMode(it)
                     }
                 )
+
+                var pingColorHex by rememberMmkvString(AppConfig.PREF_CUSTOM_PING_COLOR, "")
+                var accentColorHex by rememberMmkvString(AppConfig.PREF_CUSTOM_ACCENT_COLOR, "")
+                var primaryColorHex by rememberMmkvString(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, "")
+                var showPingColorPicker by rememberSaveable { mutableStateOf(false) }
+                var showAccentColorPicker by rememberSaveable { mutableStateOf(false) }
+                var showPrimaryColorPicker by rememberSaveable { mutableStateOf(false) }
+
+                PreferenceGroupHeader(title = stringResource(R.string.title_theme_colors))
+                SettingsMenuItem(
+                    title = stringResource(R.string.title_ping_color),
+                    subtitle = if (pingColorHex.isBlank()) {
+                        stringResource(R.string.summary_color_default)
+                    } else {
+                        stringResource(R.string.summary_color_custom, pingColorHex)
+                    },
+                    onClick = { showPingColorPicker = true }
+                )
+                SettingsMenuItem(
+                    title = stringResource(R.string.title_accent_color),
+                    subtitle = if (accentColorHex.isBlank()) {
+                        stringResource(R.string.summary_color_default)
+                    } else {
+                        stringResource(R.string.summary_color_custom, accentColorHex)
+                    },
+                    onClick = { showAccentColorPicker = true }
+                )
+                SettingsMenuItem(
+                    title = stringResource(R.string.title_selection_color),
+                    subtitle = if (primaryColorHex.isBlank()) {
+                        stringResource(R.string.summary_color_default)
+                    } else {
+                        stringResource(R.string.summary_color_custom, primaryColorHex)
+                    },
+                    onClick = { showPrimaryColorPicker = true }
+                )
+
+                if (showPingColorPicker) {
+                    ColorPickerDialog(
+                        title = stringResource(R.string.title_ping_color),
+                        initialHex = pingColorHex,
+                        defaultColor = colorPing,
+                        onDismiss = { showPingColorPicker = false },
+                        onConfirm = {
+                            pingColorHex = it
+                            ThemeManager.setPingColorHex(it)
+                            showPingColorPicker = false
+                        },
+                        onResetToDefault = {
+                            pingColorHex = ""
+                            ThemeManager.setPingColorHex("")
+                            showPingColorPicker = false
+                        }
+                    )
+                }
+                if (showAccentColorPicker) {
+                    ColorPickerDialog(
+                        title = stringResource(R.string.title_accent_color),
+                        initialHex = accentColorHex,
+                        defaultColor = MaterialTheme.colorScheme.secondary,
+                        onDismiss = { showAccentColorPicker = false },
+                        onConfirm = {
+                            accentColorHex = it
+                            ThemeManager.setAccentColorHex(it)
+                            showAccentColorPicker = false
+                        },
+                        onResetToDefault = {
+                            accentColorHex = ""
+                            ThemeManager.setAccentColorHex("")
+                            showAccentColorPicker = false
+                        }
+                    )
+                }
+                if (showPrimaryColorPicker) {
+                    ColorPickerDialog(
+                        title = stringResource(R.string.title_selection_color),
+                        initialHex = primaryColorHex,
+                        defaultColor = MaterialTheme.colorScheme.primary,
+                        onDismiss = { showPrimaryColorPicker = false },
+                        onConfirm = {
+                            primaryColorHex = it
+                            ThemeManager.setPrimaryColorHex(it)
+                            showPrimaryColorPicker = false
+                        },
+                        onResetToDefault = {
+                            primaryColorHex = ""
+                            ThemeManager.setPrimaryColorHex("")
+                            showPrimaryColorPicker = false
+                        }
+                    )
+                }
             }
 
             CollapsiblePreferenceGroupHeader(

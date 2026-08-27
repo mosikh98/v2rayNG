@@ -10,6 +10,16 @@
     <string name="action_stop_service">Stop service</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_reset_default">Reset</string>
+    <string name="title_theme_colors">Theme colors</string>
+    <string name="title_ping_color">Ping color</string>
+    <string name="summary_ping_color">Color for a good latency result</string>
+    <string name="title_accent_color">Accent / title color</string>
+    <string name="summary_accent_color">Color for tabs, icons and highlighted text</string>
+    <string name="title_selection_color">Selection / primary color</string>
+    <string name="summary_selection_color">Color for the selected server and key actions</string>
+    <string name="summary_color_default">Using default theme color</string>
+    <string name="summary_color_custom">Custom: %1$s</string>
     <string name="migration_fail">Data migration failed!</string>
     <string name="pull_down_to_refresh">Please pull down to refresh!</string>
 

@@ -36,7 +36,7 @@ import com.v2ray.ang.R
 import com.v2ray.ang.ui.compose.colorFabActive
 import com.v2ray.ang.ui.compose.colorFabInactiveDark
 import com.v2ray.ang.ui.compose.colorFabInactiveLight
-import com.v2ray.ang.ui.compose.colorPing
+import com.v2ray.ang.ui.compose.LocalPingColor
 
 @Composable
 fun MainBottomBar(
@@ -71,7 +71,7 @@ fun MainBottomBar(
                     Modifier
                         .size(9.dp)
                         .clip(CircleShape)
-                        .background(if (isRunning) colorPing else MaterialTheme.colorScheme.outline)
+                        .background(if (isRunning) LocalPingColor.current else MaterialTheme.colorScheme.outline)
                 )
                 Text(
                     text = displayText,

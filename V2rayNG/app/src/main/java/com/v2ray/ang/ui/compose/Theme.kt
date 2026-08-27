@@ -18,6 +18,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -134,6 +135,21 @@ object ThemeManager {
     )
     val dynamicColorEnabled: StateFlow<Boolean> = _dynamicColorEnabled.asStateFlow()
 
+    private val _pingColorHex = MutableStateFlow(
+        MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PING_COLOR, "") ?: ""
+    )
+    val pingColorHex: StateFlow<String> = _pingColorHex.asStateFlow()
+
+    private val _accentColorHex = MutableStateFlow(
+        MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_ACCENT_COLOR, "") ?: ""
+    )
+    val accentColorHex: StateFlow<String> = _accentColorHex.asStateFlow()
+
+    private val _primaryColorHex = MutableStateFlow(
+        MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, "") ?: ""
+    )
+    val primaryColorHex: StateFlow<String> = _primaryColorHex.asStateFlow()
+
     fun setThemeMode(mode: String) {
         MmkvManager.encodeSettings(AppConfig.PREF_UI_MODE_NIGHT, mode)
         _themeMode.value = mode
@@ -144,12 +160,49 @@ object ThemeManager {
         _dynamicColorEnabled.value = enabled
     }
 
+    fun setPingColorHex(hex: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_PING_COLOR, hex)
+        _pingColorHex.value = hex
+    }
+
+    fun setAccentColorHex(hex: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_ACCENT_COLOR, hex)
+        _accentColorHex.value = hex
+    }
+
+    fun setPrimaryColorHex(hex: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, hex)
+        _primaryColorHex.value = hex
+    }
+
     fun refresh() {
         _themeMode.value =
             MmkvManager.decodeSettingsString(AppConfig.PREF_UI_MODE_NIGHT, "0") ?: "0"
         _dynamicColorEnabled.value =
             MmkvManager.decodeSettingsBool(AppConfig.PREF_DYNAMIC_COLOR, false)
+        _pingColorHex.value =
+            MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PING_COLOR, "") ?: ""
+        _accentColorHex.value =
+            MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_ACCENT_COLOR, "") ?: ""
+        _primaryColorHex.value =
+            MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, "") ?: ""
     }
+}
+
+/** Parses a "#RRGGBB" / "#AARRGGBB" hex string into a Color, or null if blank/invalid. */
+fun parseHexColorOrNull(hex: String): Color? {
+    if (hex.isBlank()) return null
+    return try {
+        Color(android.graphics.Color.parseColor(hex))
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+/** Formats a Color back into a "#RRGGBB" hex string (alpha dropped). */
+fun Color.toHexString(): String {
+    val argb = this.toArgb()
+    return String.format("#%06X", 0xFFFFFF and argb)
 }
 
 @Composable
@@ -163,6 +216,7 @@ fun resolveDarkTheme(): Boolean {
 }
 
 val LocalDarkTheme = compositionLocalOf { false }
+val LocalPingColor = compositionLocalOf { colorPing }
 
 @Composable
 fun AppTheme(
@@ -170,8 +224,11 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     val dynamicColor by ThemeManager.dynamicColorEnabled.collectAsState()
+    val pingColorHex by ThemeManager.pingColorHex.collectAsState()
+    val accentColorHex by ThemeManager.accentColorHex.collectAsState()
+    val primaryColorHex by ThemeManager.primaryColorHex.collectAsState()
     val context = LocalContext.current
-    val colorScheme = when {
+    val baseColorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
@@ -179,6 +236,17 @@ fun AppTheme(
         darkTheme -> DarkColor
         else -> LightColor
     }
+    val customPrimary = parseHexColorOrNull(primaryColorHex)
+    val customAccent = parseHexColorOrNull(accentColorHex)
+    val colorScheme = if (customPrimary != null || customAccent != null) {
+        baseColorScheme.copy(
+            primary = customPrimary ?: baseColorScheme.primary,
+            secondary = customAccent ?: baseColorScheme.secondary
+        )
+    } else {
+        baseColorScheme
+    }
+    val resolvedPingColor = parseHexColorOrNull(pingColorHex) ?: colorPing
     val snackbarController = rememberAppSnackbarController()
 
     val view = LocalView.current
@@ -195,6 +263,7 @@ fun AppTheme(
 
     CompositionLocalProvider(
         LocalDarkTheme provides darkTheme,
+        LocalPingColor provides resolvedPingColor,
         LocalAppSnackbar provides snackbarController
     ) {
         MaterialTheme(
