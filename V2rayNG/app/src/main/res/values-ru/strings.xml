@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">подробности отсутствуют</string>
     <string name="value_unknown">неизвестно</string>
 
+    <string name="action_reset_default">Сбросить</string>
+    <string name="title_theme_colors">Цвета темы</string>
+    <string name="title_ping_color">Цвет пинга</string>
+    <string name="summary_ping_color">Цвет для хорошего результата задержки</string>
+    <string name="title_accent_color">Акцентный цвет / заголовки</string>
+    <string name="summary_accent_color">Цвет вкладок, значков и выделенного текста</string>
+    <string name="title_selection_color">Цвет выбора / основной цвет</string>
+    <string name="summary_selection_color">Цвет выбранного сервера и важных действий</string>
+    <string name="summary_color_default">Используется цвет темы по умолчанию</string>
+    <string name="summary_color_custom">Пользовательский: %1$s</string>
 </resources>

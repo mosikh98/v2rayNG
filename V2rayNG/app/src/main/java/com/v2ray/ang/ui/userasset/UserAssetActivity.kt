@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,7 +59,6 @@ import com.v2ray.ang.ui.base.HelperBaseComponentActivity
 import com.v2ray.ang.ui.compose.AppDropdownMenuItems
 import com.v2ray.ang.ui.compose.AppTopBar
 import com.v2ray.ang.ui.compose.DeleteConfirmDialog
-import com.v2ray.ang.ui.compose.ItemDivider
 import com.v2ray.ang.ui.compose.SettingsListItem
 import com.v2ray.ang.ui.compose.NavigationBarsBottomPadding
 import com.v2ray.ang.ui.compose.verticalScrollbar
@@ -69,10 +72,10 @@ import java.io.File
 import java.text.DateFormat
 import java.util.Date
 
-private enum class AddAssetMenuAction(@StringRes val labelRes: Int) {
-    File(R.string.menu_item_add_file),
-    Url(R.string.menu_item_add_url),
-    QRCode(R.string.menu_item_scan_qrcode)
+private enum class AddAssetMenuAction(@StringRes val labelRes: Int, val monogram: String) {
+    File(R.string.menu_item_add_file, "F"),
+    Url(R.string.menu_item_add_url, "U"),
+    QRCode(R.string.menu_item_scan_qrcode, "QR")
 }
 
 private data class AssetDeleteTarget(val guid: String, val name: String)
@@ -274,18 +277,28 @@ internal fun UserAssetScreen(
                         DropdownMenu(
                             expanded = showAddMenu,
                             onDismissRequest = { showAddMenu = false },
-                            containerColor = MaterialTheme.colorScheme.surface,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            shape = RoundedCornerShape(18.dp),
+                            shadowElevation = 8.dp,
                             offset = DpOffset(x = 0.dp, y = 0.dp),
-                            modifier = Modifier.wrapContentWidth(Alignment.End)
+                            modifier = Modifier
+                                .wrapContentWidth(Alignment.End)
+                                .padding(horizontal = 4.dp)
                         ) {
-                            AppDropdownMenuItems(AddAssetMenuAction.entries, { it.labelRes }) { action ->
-                                showAddMenu = false
-                                when (action) {
-                                    AddAssetMenuAction.File -> onAddFileClick()
-                                    AddAssetMenuAction.Url -> onAddUrlClick()
-                                    AddAssetMenuAction.QRCode -> onAddQrcodeClick()
+                            AppDropdownMenuItems(
+                                items = AddAssetMenuAction.entries,
+                                labelRes = { it.labelRes },
+                                monogram = { it.monogram },
+                                accentColor = { MaterialTheme.colorScheme.tertiary },
+                                onSelected = { action ->
+                                    showAddMenu = false
+                                    when (action) {
+                                        AddAssetMenuAction.File -> onAddFileClick()
+                                        AddAssetMenuAction.Url -> onAddUrlClick()
+                                        AddAssetMenuAction.QRCode -> onAddQrcodeClick()
+                                    }
                                 }
-                            }
+                            )
                         }
                     }
                     IconButton(onClick = onDownloadClick) {
@@ -328,7 +341,6 @@ internal fun UserAssetScreen(
                         deleteTarget = AssetDeleteTarget(item.guid, item.assetUrl.remarks)
                     }
                 )
-                ItemDivider()
             }
         }
     }
@@ -366,7 +378,11 @@ private fun UserAssetItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 12.dp, vertical = 3.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
+            .padding(horizontal = 6.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

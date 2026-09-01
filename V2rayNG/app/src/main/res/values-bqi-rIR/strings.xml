@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">دووسمندی نؽ</string>
     <string name="value_unknown">نا مؽخص</string>
 
+    <string name="action_reset_default">ریست</string>
+    <string name="title_theme_colors">رنگون تم</string>
+    <string name="title_ping_color">رنگ پینگ</string>
+    <string name="summary_ping_color">رنگ ایا نتیجه تاخیر خوب</string>
+    <string name="title_accent_color">رنگ تاکید / سرتیترون</string>
+    <string name="summary_accent_color">رنگ تب‌ئون، آیکون‌ئون و متن هایلایت شده</string>
+    <string name="title_selection_color">رنگ انتخاب / اصلی</string>
+    <string name="summary_selection_color">رنگ سرور انتخاب شده و کارون مهم</string>
+    <string name="summary_color_default">رنگ پیش‌فرض تم دله استفاده هنه</string>
+    <string name="summary_color_custom">سفارشی: %1$s</string>
 </resources>

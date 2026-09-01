@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">কোনো বিবরণ পাওয়া যায়নি</string>
     <string name="value_unknown">অজানা</string>
 
+    <string name="action_reset_default">রিসেট</string>
+    <string name="title_theme_colors">থিম রঙ</string>
+    <string name="title_ping_color">পিং রঙ</string>
+    <string name="summary_ping_color">ভালো লেটেন্সি ফলাফলের রঙ</string>
+    <string name="title_accent_color">অ্যাকসেন্ট / শিরোনাম রঙ</string>
+    <string name="summary_accent_color">ট্যাব, আইকন এবং হাইলাইট করা টেক্সটের রঙ</string>
+    <string name="title_selection_color">নির্বাচন / প্রধান রঙ</string>
+    <string name="summary_selection_color">নির্বাচিত সার্ভার এবং গুরুত্বপূর্ণ কর্মের রঙ</string>
+    <string name="summary_color_default">ডিফল্ট থিম রঙ ব্যবহার হচ্ছে</string>
+    <string name="summary_color_custom">কাস্টম: %1$s</string>
 </resources>

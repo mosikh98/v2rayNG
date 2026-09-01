@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">không có thông tin chi tiết</string>
     <string name="value_unknown">không xác định</string>
 
+    <string name="action_reset_default">Đặt lại</string>
+    <string name="title_theme_colors">Màu chủ đề</string>
+    <string name="title_ping_color">Màu ping</string>
+    <string name="summary_ping_color">Màu cho kết quả độ trễ tốt</string>
+    <string name="title_accent_color">Màu nhấn / tiêu đề</string>
+    <string name="summary_accent_color">Màu cho tab, biểu tượng và văn bản được đánh dấu</string>
+    <string name="title_selection_color">Màu chọn / màu chính</string>
+    <string name="summary_selection_color">Màu cho máy chủ đã chọn và các hành động quan trọng</string>
+    <string name="summary_color_default">Đang dùng màu mặc định của chủ đề</string>
+    <string name="summary_color_custom">Tùy chỉnh: %1$s</string>
 </resources>

@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">جزئیاتی در دسترس نیست</string>
     <string name="value_unknown">ناشناخته</string>
 
+    <string name="action_reset_default">بازنشانی</string>
+    <string name="title_theme_colors">رنگ‌های تم</string>
+    <string name="title_ping_color">رنگ پینگ</string>
+    <string name="summary_ping_color">رنگ نتیجه‌ی تأخیر خوب</string>
+    <string name="title_accent_color">رنگ تاکید / عنوان‌ها</string>
+    <string name="summary_accent_color">رنگ تب‌ها، آیکون‌ها و متن هایلایت‌شده</string>
+    <string name="title_selection_color">رنگ انتخاب / اصلی</string>
+    <string name="summary_selection_color">رنگ سرور انتخاب‌شده و اکشن‌های مهم</string>
+    <string name="summary_color_default">استفاده از رنگ پیش‌فرض تم</string>
+    <string name="summary_color_custom">سفارشی: %1$s</string>
 </resources>

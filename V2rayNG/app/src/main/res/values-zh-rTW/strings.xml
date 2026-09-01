@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">沒有詳細資訊</string>
     <string name="value_unknown">未知</string>
 
+    <string name="action_reset_default">重置</string>
+    <string name="title_theme_colors">主題顏色</string>
+    <string name="title_ping_color">延遲顏色</string>
+    <string name="summary_ping_color">延遲結果良好時的顏色</string>
+    <string name="title_accent_color">強調色 / 標題顏色</string>
+    <string name="summary_accent_color">標籤頁、圖示和高亮文字的顏色</string>
+    <string name="title_selection_color">選取 / 主色</string>
+    <string name="summary_selection_color">已選取伺服器及重要操作的顏色</string>
+    <string name="summary_color_default">使用預設主題顏色</string>
+    <string name="summary_color_custom">自訂：%1$s</string>
 </resources>

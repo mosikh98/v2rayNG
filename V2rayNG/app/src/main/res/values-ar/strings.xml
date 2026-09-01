@@ -548,4 +548,14 @@
     <string name="connection_test_empty_message">لا تتوفر تفاصيل</string>
     <string name="value_unknown">غير معروف</string>
 
+    <string name="action_reset_default">إعادة تعيين</string>
+    <string name="title_theme_colors">ألوان السمة</string>
+    <string name="title_ping_color">لون الاستجابة (بينغ)</string>
+    <string name="summary_ping_color">لون نتيجة زمن استجابة جيدة</string>
+    <string name="title_accent_color">لون التمييز / العناوين</string>
+    <string name="summary_accent_color">لون علامات التبويب والأيقونات والنص المميز</string>
+    <string name="title_selection_color">لون التحديد / اللون الأساسي</string>
+    <string name="summary_selection_color">لون الخادم المحدد والإجراءات المهمة</string>
+    <string name="summary_color_default">استخدام لون السمة الافتراضي</string>
+    <string name="summary_color_custom">مخصص: %1$s</string>
 </resources>

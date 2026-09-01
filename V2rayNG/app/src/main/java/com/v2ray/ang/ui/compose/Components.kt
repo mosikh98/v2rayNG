@@ -300,14 +300,22 @@ fun ReorderableListItem(
     content: @Composable RowScope.() -> Unit
 ) {
     val elevation by reorderableElevation(isDragging)
+    val cardShape = RoundedCornerShape(14.dp)
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 3.dp)
+            .clip(cardShape)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), cardShape),
+        shape = cardShape,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         shadowElevation = elevation
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .then(with(scope) { reorderableDragHandle() }),
+                .then(with(scope) { reorderableDragHandle() })
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             content = content
         )
