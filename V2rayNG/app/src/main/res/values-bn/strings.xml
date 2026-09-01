@@ -558,4 +558,8 @@
     <string name="summary_selection_color">নির্বাচিত সার্ভার এবং গুরুত্বপূর্ণ কর্মের রঙ</string>
     <string name="summary_color_default">ডিফল্ট থিম রঙ ব্যবহার হচ্ছে</string>
     <string name="summary_color_custom">কাস্টম: %1$s</string>
+    <string name="title_background_image">পটভূমি ছবি</string>
+    <string name="summary_background_image">নেভিগেশন ড্রয়ারের পিছনে দেখানোর জন্য আপনার ডিভাইস থেকে একটি ছবি বেছে নিন, অথবা ডিফল্ট পটভূমি ব্যবহার করতে এটি সরিয়ে ফেলুন।</string>
+    <string name="summary_background_image_custom">কাস্টম ছবি সেট করা হয়েছে</string>
+    <string name="action_choose_image">ছবি বেছে নিন</string>
 </resources>

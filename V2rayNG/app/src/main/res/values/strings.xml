@@ -20,6 +20,10 @@
     <string name="summary_selection_color">Color for the selected server and key actions</string>
     <string name="summary_color_default">Using default theme color</string>
     <string name="summary_color_custom">Custom: %1$s</string>
+    <string name="title_background_image">Background image</string>
+    <string name="summary_background_image">Choose a picture from your device to show behind the navigation drawer, or remove it to use the default background.</string>
+    <string name="summary_background_image_custom">Custom image set</string>
+    <string name="action_choose_image">Choose image</string>
     <string name="migration_fail">Data migration failed!</string>
     <string name="pull_down_to_refresh">Please pull down to refresh!</string>
 

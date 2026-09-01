@@ -2,6 +2,7 @@ package com.v2ray.ang.ui.compose
 
 import android.app.Activity
 import android.os.Build
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,9 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import coil.compose.AsyncImage
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.handler.MmkvManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -150,6 +153,11 @@ object ThemeManager {
     )
     val primaryColorHex: StateFlow<String> = _primaryColorHex.asStateFlow()
 
+    private val _backgroundImageUri = MutableStateFlow(
+        MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_BACKGROUND_URI, "") ?: ""
+    )
+    val backgroundImageUri: StateFlow<String> = _backgroundImageUri.asStateFlow()
+
     fun setThemeMode(mode: String) {
         MmkvManager.encodeSettings(AppConfig.PREF_UI_MODE_NIGHT, mode)
         _themeMode.value = mode
@@ -175,6 +183,11 @@ object ThemeManager {
         _primaryColorHex.value = hex
     }
 
+    fun setBackgroundImageUri(uri: String) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_BACKGROUND_URI, uri)
+        _backgroundImageUri.value = uri
+    }
+
     fun refresh() {
         _themeMode.value =
             MmkvManager.decodeSettingsString(AppConfig.PREF_UI_MODE_NIGHT, "0") ?: "0"
@@ -186,6 +199,8 @@ object ThemeManager {
             MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_ACCENT_COLOR, "") ?: ""
         _primaryColorHex.value =
             MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, "") ?: ""
+        _backgroundImageUri.value =
+            MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_BACKGROUND_URI, "") ?: ""
     }
 }
 
@@ -238,10 +253,15 @@ fun AppTheme(
     }
     val customPrimary = parseHexColorOrNull(primaryColorHex)
     val customAccent = parseHexColorOrNull(accentColorHex)
-    val colorScheme = if (customPrimary != null || customAccent != null) {
+    val backgroundImageUri by ThemeManager.backgroundImageUri.collectAsState()
+    val hasBackgroundImage = backgroundImageUri.isNotBlank()
+    val colorScheme = if (customPrimary != null || customAccent != null || hasBackgroundImage) {
         baseColorScheme.copy(
             primary = customPrimary ?: baseColorScheme.primary,
-            secondary = customAccent ?: baseColorScheme.secondary
+            secondary = customAccent ?: baseColorScheme.secondary,
+            // Let the custom background image show through every screen's default
+            // Scaffold container instead of being covered by a solid background.
+            background = if (hasBackgroundImage) Color.Transparent else baseColorScheme.background
         )
     } else {
         baseColorScheme
@@ -269,7 +289,24 @@ fun AppTheme(
         MaterialTheme(
             colorScheme = colorScheme
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(baseColorScheme.surface)
+            ) {
+                if (hasBackgroundImage) {
+                    AsyncImage(
+                        model = backgroundImageUri,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(baseColorScheme.surface.copy(alpha = if (darkTheme) 0.72f else 0.82f))
+                    )
+                }
                 AppSnackbarBridge(controller = snackbarController)
                 content()
                 AppSnackbarHost(hostState = snackbarController.hostState)

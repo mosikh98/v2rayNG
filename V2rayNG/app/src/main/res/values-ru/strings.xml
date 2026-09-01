@@ -558,4 +558,8 @@
     <string name="summary_selection_color">Цвет выбранного сервера и важных действий</string>
     <string name="summary_color_default">Используется цвет темы по умолчанию</string>
     <string name="summary_color_custom">Пользовательский: %1$s</string>
+    <string name="title_background_image">Фоновое изображение</string>
+    <string name="summary_background_image">Выберите изображение с устройства, чтобы показать его за панелью навигации, или удалите его, чтобы использовать фон по умолчанию.</string>
+    <string name="summary_background_image_custom">Установлено пользовательское изображение</string>
+    <string name="action_choose_image">Выбрать изображение</string>
 </resources>

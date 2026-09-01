@@ -62,6 +62,7 @@ object AppConfig {
     const val PREF_CUSTOM_PING_COLOR = "pref_custom_ping_color"
     const val PREF_CUSTOM_ACCENT_COLOR = "pref_custom_accent_color"
     const val PREF_CUSTOM_PRIMARY_COLOR = "pref_custom_primary_color"
+    const val PREF_CUSTOM_BACKGROUND_URI = "pref_custom_background_uri"
     const val PREF_IPV6_ENABLED = "pref_ipv6_enabled"
     const val PREF_PREFER_IPV6 = "pref_prefer_ipv6"
     const val PREF_PROXY_SHARING = "pref_proxy_sharing_enabled"

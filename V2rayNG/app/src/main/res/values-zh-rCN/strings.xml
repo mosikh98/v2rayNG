@@ -558,4 +558,8 @@
     <string name="summary_selection_color">已选中服务器及重要操作的颜色</string>
     <string name="summary_color_default">使用默认主题颜色</string>
     <string name="summary_color_custom">自定义：%1$s</string>
+    <string name="title_background_image">背景图片</string>
+    <string name="summary_background_image">从设备中选择一张图片显示在导航抽屉后面，或移除它以使用默认背景。</string>
+    <string name="summary_background_image_custom">已设置自定义图片</string>
+    <string name="action_choose_image">选择图片</string>
 </resources>

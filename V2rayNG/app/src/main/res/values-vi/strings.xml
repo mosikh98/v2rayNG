@@ -558,4 +558,8 @@
     <string name="summary_selection_color">Màu cho máy chủ đã chọn và các hành động quan trọng</string>
     <string name="summary_color_default">Đang dùng màu mặc định của chủ đề</string>
     <string name="summary_color_custom">Tùy chỉnh: %1$s</string>
+    <string name="title_background_image">Hình nền</string>
+    <string name="summary_background_image">Chọn một hình ảnh từ thiết bị của bạn để hiển thị phía sau ngăn điều hướng, hoặc xóa nó để dùng nền mặc định.</string>
+    <string name="summary_background_image_custom">Đã đặt hình ảnh tùy chỉnh</string>
+    <string name="action_choose_image">Chọn hình ảnh</string>
 </resources>

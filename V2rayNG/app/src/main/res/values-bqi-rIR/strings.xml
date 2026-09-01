@@ -558,4 +558,8 @@
     <string name="summary_selection_color">رنگ سرور انتخاب شده و کارون مهم</string>
     <string name="summary_color_default">رنگ پیش‌فرض تم دله استفاده هنه</string>
     <string name="summary_color_custom">سفارشی: %1$s</string>
+    <string name="title_background_image">عکس پس‌زمینه</string>
+    <string name="summary_background_image">ایا عکس ره از دستگاهت انتخاب هاکن که پشت منوی ناوبری نشون هده، یا ایا ره پاک هاکن تا پس‌زمینه‌ی پیش‌فرض استفاده به.</string>
+    <string name="summary_background_image_custom">عکس سفارشی ست شده</string>
+    <string name="action_choose_image">انتخاب عکس</string>
 </resources>
