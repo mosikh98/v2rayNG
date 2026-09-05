@@ -36,6 +36,9 @@ import com.v2ray.ang.R
 import com.v2ray.ang.ui.compose.colorFabActive
 import com.v2ray.ang.ui.compose.colorFabInactiveDark
 import com.v2ray.ang.ui.compose.colorFabInactiveLight
+import com.v2ray.ang.ui.compose.glassPanelBorderColor
+import com.v2ray.ang.ui.compose.glassPanelBorderWidth
+import com.v2ray.ang.ui.compose.glassPanelColor
 import com.v2ray.ang.ui.compose.LocalPingColor
 
 @Composable
@@ -50,10 +53,10 @@ fun MainBottomBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .background(glassPanelColor())
                 .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                    width = glassPanelBorderWidth(),
+                    color = glassPanelBorderColor(),
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 )
                 .clickable(onClick = { onAction(MainAction.TestCurrentServer) })

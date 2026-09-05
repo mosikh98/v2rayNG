@@ -61,6 +61,9 @@ import com.v2ray.ang.ui.compose.AppTopBar
 import com.v2ray.ang.ui.compose.DeleteConfirmDialog
 import com.v2ray.ang.ui.compose.SettingsListItem
 import com.v2ray.ang.ui.compose.NavigationBarsBottomPadding
+import com.v2ray.ang.ui.compose.glassPanelBorderColor
+import com.v2ray.ang.ui.compose.glassPanelBorderWidth
+import com.v2ray.ang.ui.compose.glassPanelColor
 import com.v2ray.ang.ui.compose.verticalScrollbar
 import com.v2ray.ang.util.LogUtil
 import com.v2ray.ang.util.Utils
@@ -277,7 +280,7 @@ internal fun UserAssetScreen(
                         DropdownMenu(
                             expanded = showAddMenu,
                             onDismissRequest = { showAddMenu = false },
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            containerColor = glassPanelColor(base = MaterialTheme.colorScheme.surfaceContainerHigh, glassAlpha = 0.82f),
                             shape = RoundedCornerShape(18.dp),
                             shadowElevation = 8.dp,
                             offset = DpOffset(x = 0.dp, y = 0.dp),
@@ -380,8 +383,8 @@ private fun UserAssetItem(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 3.dp)
             .clip(RoundedCornerShape(14.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
+            .background(glassPanelColor())
+            .border(glassPanelBorderWidth(), glassPanelBorderColor(), RoundedCornerShape(14.dp))
             .padding(horizontal = 6.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

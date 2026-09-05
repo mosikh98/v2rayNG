@@ -23,6 +23,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import coil.compose.AsyncImage
 import com.v2ray.ang.AppConfig
@@ -220,6 +222,30 @@ fun Color.toHexString(): String {
     return String.format("#%06X", 0xFFFFFF and argb)
 }
 
+/**
+ * Fill color for a card/panel: a translucent "glass" tint over the background image when
+ * [LocalGlassEffect] is active, or the normal opaque surface color otherwise.
+ */
+@Composable
+fun glassPanelColor(base: Color = MaterialTheme.colorScheme.surfaceContainer, glassAlpha: Float = 0.46f): Color =
+    if (LocalGlassEffect.current) base.copy(alpha = glassAlpha) else base
+
+/**
+ * Border color for a card/panel. Deliberately brighter/crisper than the translucent fill so the
+ * frame stays clearly readable against a busy background image ("glass, but with a clear edge").
+ */
+@Composable
+fun glassPanelBorderColor(): Color =
+    if (LocalGlassEffect.current) {
+        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f)
+    } else {
+        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
+    }
+
+/** Border width for a card/panel — a touch bolder in glass mode so the frame reads clearly. */
+@Composable
+fun glassPanelBorderWidth(): Dp = if (LocalGlassEffect.current) 1.3.dp else 1.dp
+
 @Composable
 fun resolveDarkTheme(): Boolean {
     val mode by ThemeManager.themeMode.collectAsState()
@@ -232,6 +258,8 @@ fun resolveDarkTheme(): Boolean {
 
 val LocalDarkTheme = compositionLocalOf { false }
 val LocalPingColor = compositionLocalOf { colorPing }
+/** True when a custom background image is active — surfaces should render as translucent "glass" panels over it. */
+val LocalGlassEffect = compositionLocalOf { false }
 
 @Composable
 fun AppTheme(
@@ -284,6 +312,7 @@ fun AppTheme(
     CompositionLocalProvider(
         LocalDarkTheme provides darkTheme,
         LocalPingColor provides resolvedPingColor,
+        LocalGlassEffect provides hasBackgroundImage,
         LocalAppSnackbar provides snackbarController
     ) {
         MaterialTheme(

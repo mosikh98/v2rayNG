@@ -179,10 +179,10 @@ fun AppListItem(
             .padding(horizontal = 12.dp, vertical = 3.dp)
             .clip(cardShape)
             .background(
-                if (checked) MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
-                else MaterialTheme.colorScheme.surfaceContainer
+                if (checked) MaterialTheme.colorScheme.primary.copy(alpha = if (LocalGlassEffect.current) 0.20f else 0.08f)
+                else glassPanelColor()
             )
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), cardShape)
+            .border(glassPanelBorderWidth(), glassPanelBorderColor(), cardShape)
             .clickable { onCheckedChange(!checked) }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -306,9 +306,9 @@ fun ReorderableListItem(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 3.dp)
             .clip(cardShape)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), cardShape),
+            .border(glassPanelBorderWidth(), glassPanelBorderColor(), cardShape),
         shape = cardShape,
-        color = MaterialTheme.colorScheme.surfaceContainer,
+        color = glassPanelColor(),
         shadowElevation = elevation
     ) {
         Row(

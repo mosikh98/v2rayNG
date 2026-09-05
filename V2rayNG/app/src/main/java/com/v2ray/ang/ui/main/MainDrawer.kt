@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.v2ray.ang.R
 import com.v2ray.ang.ui.compose.LocalDarkTheme
 import com.v2ray.ang.ui.compose.ThemeManager
+import com.v2ray.ang.ui.compose.glassPanelColor
 import com.v2ray.ang.ui.compose.verticalScrollbar
 
 enum class MainDestination(@DrawableRes val iconRes: Int, @StringRes val labelRes: Int) {
@@ -79,7 +80,7 @@ fun MainDrawerContent(drawerState: DrawerState, onNavigate: (MainDestination) ->
     ModalDrawerSheet(
         drawerState = drawerState,
         modifier = Modifier.fillMaxWidth(0.75f),
-        drawerContainerColor = MaterialTheme.colorScheme.surface
+        drawerContainerColor = glassPanelColor(base = MaterialTheme.colorScheme.surface, glassAlpha = 0.86f)
     ) {
         Column(
             modifier = Modifier
@@ -153,7 +154,7 @@ fun MainDrawerContent(drawerState: DrawerState, onNavigate: (MainDestination) ->
                     icon = { Icon(painterResource(item.iconRes), contentDescription = null) },
                     shape = RoundedCornerShape(14.dp),
                     colors = NavigationDrawerItemDefaults.colors(
-                        unselectedContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                        unselectedContainerColor = glassPanelColor()
                     ),
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 3.dp)
                 )

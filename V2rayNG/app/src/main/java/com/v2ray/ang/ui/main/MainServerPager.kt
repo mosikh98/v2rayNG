@@ -59,8 +59,12 @@ import com.v2ray.ang.handler.MmkvManager
 import com.v2ray.ang.ui.compose.ReorderableGridItem
 import com.v2ray.ang.ui.compose.ReorderableListItem
 import com.v2ray.ang.ui.compose.colorConfigType
+import com.v2ray.ang.ui.compose.LocalGlassEffect
 import com.v2ray.ang.ui.compose.LocalPingColor
 import com.v2ray.ang.ui.compose.colorPingRed
+import com.v2ray.ang.ui.compose.glassPanelBorderColor
+import com.v2ray.ang.ui.compose.glassPanelBorderWidth
+import com.v2ray.ang.ui.compose.glassPanelColor
 import com.v2ray.ang.ui.compose.verticalScrollbar
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
@@ -379,17 +383,17 @@ fun ServerListItem(
             .clip(cardShape)
             .background(
                 if (isSelected) {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)
+                    MaterialTheme.colorScheme.primary.copy(alpha = if (LocalGlassEffect.current) 0.22f else 0.10f)
                 } else {
-                    MaterialTheme.colorScheme.surfaceContainer
+                    glassPanelColor()
                 }
             )
             .border(
-                width = if (isSelected) 1.5.dp else 1.dp,
+                width = if (isSelected) 1.5.dp else glassPanelBorderWidth(),
                 color = if (isSelected) {
                     MaterialTheme.colorScheme.primary.copy(alpha = 0.55f)
                 } else {
-                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                    glassPanelBorderColor()
                 },
                 shape = cardShape
             )
