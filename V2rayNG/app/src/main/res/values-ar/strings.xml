@@ -557,10 +557,7 @@
     <string name="title_selection_color">لون التحديد / اللون الأساسي</string>
     <string name="summary_selection_color">لون الخادم المحدد والإجراءات المهمة</string>
     <string name="summary_color_default">استخدام لون السمة الافتراضي</string>
-    <string name="summary_color_custom">مخصص: %1$s</string>
-    <string name="title_background_image">صورة الخلفية</string>
-    <string name="summary_background_image">اختر صورة من جهازك لعرضها خلف قائمة التنقل، أو أزلها لاستخدام الخلفية الافتراضية.</string>
-    <string name="summary_background_image_custom">تم تعيين صورة مخصصة</string>
+    <string name="summary_color_custom">مخصص: %1$s</string>    <string name="summary_background_image_custom">تم تعيين صورة مخصصة</string>
     <string name="action_choose_image">اختيار صورة</string>
     <string name="title_custom_artwork">صورة فنية مخصصة</string>
     <string name="summary_artwork_no_image">اختر صورة لمعاينتها مركّبة مع واجهة التطبيق</string>
