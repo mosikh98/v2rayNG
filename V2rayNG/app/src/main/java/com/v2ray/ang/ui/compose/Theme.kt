@@ -20,13 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import coil.compose.AsyncImage
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.handler.MmkvManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -129,6 +127,21 @@ val toastInfoBg = Color(0xB30C4A6E) // Midnight Blue
 val toastIconCircleBg = Color(0x33FFFFFF) // Semi-transparent White
 val toastTextColor = Color.White // White
 
+/** Immutable snapshot of the user's Custom Artwork composition (position/zoom/opacity/blur/etc). */
+data class ArtworkSettings(
+    val offsetXFraction: Float = 0f, // -1f (left edge) .. 1f (right edge), 0 = centered
+    val offsetYFraction: Float = 0f, // -1f (top edge) .. 1f (bottom edge), 0 = centered
+    val zoom: Float = 1f, // 1f = fill/cover, up to 3f
+    val opacity: Float = 1f, // 0f .. 1f
+    val blurDp: Float = 0f, // 0 .. 24dp
+    val brightness: Float = 0f, // -0.5f (darker) .. 0.5f (brighter)
+    val overlayStrength: Float = 0.55f // 0f .. 1f, strength of the dark/light scrim on top
+) {
+    companion object {
+        val Default = ArtworkSettings()
+    }
+}
+
 object ThemeManager {
     private val _themeMode = MutableStateFlow(
         MmkvManager.decodeSettingsString(AppConfig.PREF_UI_MODE_NIGHT, "0") ?: "0"
@@ -160,6 +173,19 @@ object ThemeManager {
     )
     val backgroundImageUri: StateFlow<String> = _backgroundImageUri.asStateFlow()
 
+    private val _artworkSettings = MutableStateFlow(readArtworkSettingsFromStorage())
+    val artworkSettings: StateFlow<ArtworkSettings> = _artworkSettings.asStateFlow()
+
+    private fun readArtworkSettingsFromStorage(): ArtworkSettings = ArtworkSettings(
+        offsetXFraction = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_OFFSET_X, 0f),
+        offsetYFraction = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_OFFSET_Y, 0f),
+        zoom = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_ZOOM, 1f),
+        opacity = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_OPACITY, 1f),
+        blurDp = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_BLUR, 0f),
+        brightness = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_BRIGHTNESS, 0f),
+        overlayStrength = MmkvManager.decodeSettingsFloat(AppConfig.PREF_ARTWORK_OVERLAY, 0.55f)
+    )
+
     fun setThemeMode(mode: String) {
         MmkvManager.encodeSettings(AppConfig.PREF_UI_MODE_NIGHT, mode)
         _themeMode.value = mode
@@ -190,6 +216,25 @@ object ThemeManager {
         _backgroundImageUri.value = uri
     }
 
+    /** Persists the full artwork composition and clears the image when [uri] is blank. */
+    fun applyArtwork(uri: String, settings: ArtworkSettings) {
+        MmkvManager.encodeSettings(AppConfig.PREF_CUSTOM_BACKGROUND_URI, uri)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_OFFSET_X, settings.offsetXFraction)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_OFFSET_Y, settings.offsetYFraction)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_ZOOM, settings.zoom)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_OPACITY, settings.opacity)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_BLUR, settings.blurDp)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_BRIGHTNESS, settings.brightness)
+        MmkvManager.encodeSettings(AppConfig.PREF_ARTWORK_OVERLAY, settings.overlayStrength)
+        _backgroundImageUri.value = uri
+        _artworkSettings.value = settings
+    }
+
+    /** Clears the custom artwork entirely, restoring the application's default appearance. */
+    fun removeArtwork() {
+        applyArtwork("", ArtworkSettings.Default)
+    }
+
     fun refresh() {
         _themeMode.value =
             MmkvManager.decodeSettingsString(AppConfig.PREF_UI_MODE_NIGHT, "0") ?: "0"
@@ -203,6 +248,7 @@ object ThemeManager {
             MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_PRIMARY_COLOR, "") ?: ""
         _backgroundImageUri.value =
             MmkvManager.decodeSettingsString(AppConfig.PREF_CUSTOM_BACKGROUND_URI, "") ?: ""
+        _artworkSettings.value = readArtworkSettingsFromStorage()
     }
 }
 
@@ -282,6 +328,7 @@ fun AppTheme(
     val customPrimary = parseHexColorOrNull(primaryColorHex)
     val customAccent = parseHexColorOrNull(accentColorHex)
     val backgroundImageUri by ThemeManager.backgroundImageUri.collectAsState()
+    val artworkSettings by ThemeManager.artworkSettings.collectAsState()
     val hasBackgroundImage = backgroundImageUri.isNotBlank()
     val colorScheme = if (customPrimary != null || customAccent != null || hasBackgroundImage) {
         baseColorScheme.copy(
@@ -324,16 +371,14 @@ fun AppTheme(
                     .background(baseColorScheme.surface)
             ) {
                 if (hasBackgroundImage) {
-                    AsyncImage(
-                        model = backgroundImageUri,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(baseColorScheme.surface.copy(alpha = if (darkTheme) 0.72f else 0.82f))
+                    // Text-dense screens behind this layer lean on the user's own overlay
+                    // strength as saved in the editor — the drawer header applies a lighter
+                    // overlay separately so the same artwork reads as more prominent there.
+                    ArtworkLayer(
+                        imageUri = backgroundImageUri,
+                        settings = artworkSettings,
+                        darkTheme = darkTheme,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
                 AppSnackbarBridge(controller = snackbarController)

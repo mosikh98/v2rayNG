@@ -33,14 +33,13 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.v2ray.ang.R
 import com.v2ray.ang.ui.compose.LocalDarkTheme
 import com.v2ray.ang.ui.compose.ThemeManager
+import com.v2ray.ang.ui.compose.ArtworkLayer
 import com.v2ray.ang.ui.compose.glassPanelColor
 import com.v2ray.ang.ui.compose.verticalScrollbar
 
@@ -88,6 +87,7 @@ fun MainDrawerContent(drawerState: DrawerState, onNavigate: (MainDestination) ->
                 .verticalScrollbar(drawerScrollState)
         ) {
             val backgroundUri by ThemeManager.backgroundImageUri.collectAsState()
+            val artworkSettings by ThemeManager.artworkSettings.collectAsState()
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,11 +95,14 @@ fun MainDrawerContent(drawerState: DrawerState, onNavigate: (MainDestination) ->
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (backgroundUri.isNotBlank()) {
-                        AsyncImage(
-                            model = backgroundUri,
-                            contentDescription = null,
+                        // A lighter overlay than the app-wide layer so the artwork feels more
+                        // prominent here, per the drawer's stronger composition.
+                        ArtworkLayer(
+                            imageUri = backgroundUri,
+                            settings = artworkSettings,
+                            darkTheme = LocalDarkTheme.current,
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
+                            overlayMultiplier = 0.55f
                         )
                         Box(
                             modifier = Modifier
@@ -107,8 +110,8 @@ fun MainDrawerContent(drawerState: DrawerState, onNavigate: (MainDestination) ->
                                 .background(
                                     Brush.verticalGradient(
                                         colors = listOf(
-                                            Color.Black.copy(alpha = 0.15f),
-                                            Color.Black.copy(alpha = 0.55f)
+                                            Color.Transparent,
+                                            Color.Black.copy(alpha = 0.45f)
                                         )
                                     )
                                 )

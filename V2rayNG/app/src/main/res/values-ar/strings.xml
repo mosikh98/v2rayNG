@@ -562,4 +562,16 @@
     <string name="summary_background_image">اختر صورة من جهازك لعرضها خلف قائمة التنقل، أو أزلها لاستخدام الخلفية الافتراضية.</string>
     <string name="summary_background_image_custom">تم تعيين صورة مخصصة</string>
     <string name="action_choose_image">اختيار صورة</string>
+    <string name="title_custom_artwork">صورة فنية مخصصة</string>
+    <string name="summary_artwork_no_image">اختر صورة لمعاينتها مركّبة مع واجهة التطبيق</string>
+    <string name="title_artwork_adjustments">التعديلات</string>
+    <string name="label_artwork_zoom">التكبير</string>
+    <string name="label_artwork_opacity">الشفافية</string>
+    <string name="label_artwork_blur">التمويه</string>
+    <string name="label_artwork_brightness">السطوع</string>
+    <string name="label_artwork_overlay">التغطية</string>
+    <string name="action_remove_artwork">إزالة الصورة الفنية</string>
+    <string name="action_apply">تطبيق</string>
+    <string name="summary_artwork_hint">اسحب لتغيير الموضع، وقرّب بإصبعين للتكبير</string>
+    <string name="title_appearance">المظهر</string>
 </resources>

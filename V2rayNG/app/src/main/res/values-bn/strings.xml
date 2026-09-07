@@ -562,4 +562,16 @@
     <string name="summary_background_image">নেভিগেশন ড্রয়ারের পিছনে দেখানোর জন্য আপনার ডিভাইস থেকে একটি ছবি বেছে নিন, অথবা ডিফল্ট পটভূমি ব্যবহার করতে এটি সরিয়ে ফেলুন।</string>
     <string name="summary_background_image_custom">কাস্টম ছবি সেট করা হয়েছে</string>
     <string name="action_choose_image">ছবি বেছে নিন</string>
+    <string name="title_custom_artwork">কাস্টম আর্টওয়ার্ক</string>
+    <string name="summary_artwork_no_image">অ্যাপের UI-এর সাথে মিশিয়ে প্রিভিউ দেখতে একটি ছবি বেছে নিন</string>
+    <string name="title_artwork_adjustments">সমন্বয়</string>
+    <string name="label_artwork_zoom">জুম</string>
+    <string name="label_artwork_opacity">অস্বচ্ছতা</string>
+    <string name="label_artwork_blur">ব্লার</string>
+    <string name="label_artwork_brightness">উজ্জ্বলতা</string>
+    <string name="label_artwork_overlay">ওভারলে</string>
+    <string name="action_remove_artwork">আর্টওয়ার্ক সরান</string>
+    <string name="action_apply">প্রয়োগ করুন</string>
+    <string name="summary_artwork_hint">সরাতে টেনে আনুন, জুম করতে চিমটি দিন</string>
+    <string name="title_appearance">চেহারা</string>
 </resources>

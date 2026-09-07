@@ -3,10 +3,8 @@ package com.v2ray.ang.ui.settings
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -61,19 +57,6 @@ class SettingsActivity : BaseComponentActivity() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private val backgroundImagePicker =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) {
-                runCatching {
-                    contentResolver.takePersistableUriPermission(
-                        uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
-                ThemeManager.setBackgroundImageUri(uri.toString())
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -84,7 +67,7 @@ class SettingsActivity : BaseComponentActivity() {
             viewModel = viewModel,
             onBackClick = { finish() },
             onModeHelpClicked = { Utils.openUri(this, AppConfig.APP_WIKI_MODE) },
-            onPickBackgroundImage = { backgroundImagePicker.launch(arrayOf("image/*")) }
+            onOpenArtworkEditor = { startActivity(Intent(this, ArtworkEditorActivity::class.java)) }
         )
     }
 }
@@ -95,7 +78,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     onBackClick: () -> Unit,
     onModeHelpClicked: () -> Unit,
-    onPickBackgroundImage: () -> Unit
+    onOpenArtworkEditor: () -> Unit
 ) {
     val scrollState = rememberScrollState()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
@@ -333,44 +316,16 @@ fun SettingsScreen(
                 )
 
                 val backgroundImageUri by ThemeManager.backgroundImageUri.collectAsState()
-                var showBackgroundImageDialog by rememberSaveable { mutableStateOf(false) }
+                PreferenceGroupHeader(title = stringResource(R.string.title_appearance))
                 SettingsMenuItem(
-                    title = stringResource(R.string.title_background_image),
+                    title = stringResource(R.string.title_custom_artwork),
                     subtitle = if (backgroundImageUri.isBlank()) {
                         stringResource(R.string.summary_color_default)
                     } else {
                         stringResource(R.string.summary_background_image_custom)
                     },
-                    onClick = { showBackgroundImageDialog = true }
+                    onClick = onOpenArtworkEditor
                 )
-                if (showBackgroundImageDialog) {
-                    AlertDialog(
-                        onDismissRequest = { showBackgroundImageDialog = false },
-                        title = { Text(stringResource(R.string.title_background_image)) },
-                        text = { Text(stringResource(R.string.summary_background_image)) },
-                        confirmButton = {
-                            TextButton(onClick = {
-                                showBackgroundImageDialog = false
-                                onPickBackgroundImage()
-                            }) {
-                                Text(stringResource(R.string.action_choose_image))
-                            }
-                        },
-                        dismissButton = {
-                            Row {
-                                TextButton(onClick = {
-                                    ThemeManager.setBackgroundImageUri("")
-                                    showBackgroundImageDialog = false
-                                }) {
-                                    Text(stringResource(R.string.action_reset_default))
-                                }
-                                TextButton(onClick = { showBackgroundImageDialog = false }) {
-                                    Text(stringResource(R.string.action_cancel))
-                                }
-                            }
-                        }
-                    )
-                }
 
                 if (showPingColorPicker) {
                     ColorPickerDialog(

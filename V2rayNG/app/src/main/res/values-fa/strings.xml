@@ -562,4 +562,16 @@
     <string name="summary_background_image">یک تصویر از دستگاهت انتخاب کن تا پشت منوی ناوبری نمایش داده شود، یا آن را حذف کن تا پس‌زمینه‌ی پیش‌فرض استفاده شود.</string>
     <string name="summary_background_image_custom">تصویر سفارشی تنظیم شده</string>
     <string name="action_choose_image">انتخاب تصویر</string>
+    <string name="title_custom_artwork">تصویر هنری سفارشی</string>
+    <string name="summary_artwork_no_image">یک تصویر انتخاب کن تا پیش‌نمایش ترکیب‌شده با UI اپ رو ببینی</string>
+    <string name="title_artwork_adjustments">تنظیمات</string>
+    <string name="label_artwork_zoom">زوم</string>
+    <string name="label_artwork_opacity">شفافیت</string>
+    <string name="label_artwork_blur">بلور</string>
+    <string name="label_artwork_brightness">روشنایی</string>
+    <string name="label_artwork_overlay">روکش</string>
+    <string name="action_remove_artwork">حذف تصویر هنری</string>
+    <string name="action_apply">اعمال</string>
+    <string name="summary_artwork_hint">برای جابجایی بکش، برای زوم دو انگشتی کن</string>
+    <string name="title_appearance">ظاهر</string>
 </resources>

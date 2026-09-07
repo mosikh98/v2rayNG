@@ -562,4 +562,16 @@
     <string name="summary_background_image">從裝置中選擇一張圖片顯示在導覽抽屜後面，或移除它以使用預設背景。</string>
     <string name="summary_background_image_custom">已設定自訂圖片</string>
     <string name="action_choose_image">選擇圖片</string>
+    <string name="title_custom_artwork">自訂美術圖</string>
+    <string name="summary_artwork_no_image">選擇一張圖片，預覽它與應用程式介面的合成效果</string>
+    <string name="title_artwork_adjustments">調整</string>
+    <string name="label_artwork_zoom">縮放</string>
+    <string name="label_artwork_opacity">不透明度</string>
+    <string name="label_artwork_blur">模糊</string>
+    <string name="label_artwork_brightness">亮度</string>
+    <string name="label_artwork_overlay">遮罩強度</string>
+    <string name="action_remove_artwork">移除美術圖</string>
+    <string name="action_apply">套用</string>
+    <string name="summary_artwork_hint">拖曳以調整位置，雙指縮放</string>
+    <string name="title_appearance">外觀</string>
 </resources>

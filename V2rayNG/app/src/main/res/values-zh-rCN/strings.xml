@@ -562,4 +562,16 @@
     <string name="summary_background_image">从设备中选择一张图片显示在导航抽屉后面，或移除它以使用默认背景。</string>
     <string name="summary_background_image_custom">已设置自定义图片</string>
     <string name="action_choose_image">选择图片</string>
+    <string name="title_custom_artwork">自定义美术图</string>
+    <string name="summary_artwork_no_image">选择一张图片，预览它与应用界面的合成效果</string>
+    <string name="title_artwork_adjustments">调整</string>
+    <string name="label_artwork_zoom">缩放</string>
+    <string name="label_artwork_opacity">不透明度</string>
+    <string name="label_artwork_blur">模糊</string>
+    <string name="label_artwork_brightness">亮度</string>
+    <string name="label_artwork_overlay">遮罩强度</string>
+    <string name="action_remove_artwork">移除美术图</string>
+    <string name="action_apply">应用</string>
+    <string name="summary_artwork_hint">拖动以调整位置，双指捏合以缩放</string>
+    <string name="title_appearance">外观</string>
 </resources>

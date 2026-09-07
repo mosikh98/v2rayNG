@@ -12,6 +12,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_reset_default">Reset</string>
     <string name="title_theme_colors">Theme colors</string>
+    <string name="title_appearance">Appearance</string>
     <string name="title_ping_color">Ping color</string>
     <string name="summary_ping_color">Color for a good latency result</string>
     <string name="title_accent_color">Accent / title color</string>
@@ -20,10 +21,19 @@
     <string name="summary_selection_color">Color for the selected server and key actions</string>
     <string name="summary_color_default">Using default theme color</string>
     <string name="summary_color_custom">Custom: %1$s</string>
-    <string name="title_background_image">Background image</string>
-    <string name="summary_background_image">Choose a picture from your device to show behind the navigation drawer, or remove it to use the default background.</string>
     <string name="summary_background_image_custom">Custom image set</string>
     <string name="action_choose_image">Choose image</string>
+    <string name="title_custom_artwork">Custom Artwork</string>
+    <string name="summary_artwork_no_image">Choose an image to preview it composed with the app\'s UI</string>
+    <string name="title_artwork_adjustments">Adjustments</string>
+    <string name="label_artwork_zoom">Zoom</string>
+    <string name="label_artwork_opacity">Opacity</string>
+    <string name="label_artwork_blur">Blur</string>
+    <string name="label_artwork_brightness">Brightness</string>
+    <string name="label_artwork_overlay">Overlay</string>
+    <string name="action_remove_artwork">Remove Artwork</string>
+    <string name="action_apply">Apply</string>
+    <string name="summary_artwork_hint">Drag to reposition, pinch to zoom</string>
     <string name="migration_fail">Data migration failed!</string>
     <string name="pull_down_to_refresh">Please pull down to refresh!</string>
 

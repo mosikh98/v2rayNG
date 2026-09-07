@@ -562,4 +562,16 @@
     <string name="summary_background_image">Выберите изображение с устройства, чтобы показать его за панелью навигации, или удалите его, чтобы использовать фон по умолчанию.</string>
     <string name="summary_background_image_custom">Установлено пользовательское изображение</string>
     <string name="action_choose_image">Выбрать изображение</string>
+    <string name="title_custom_artwork">Свой фон</string>
+    <string name="summary_artwork_no_image">Выберите изображение, чтобы увидеть его в сочетании с интерфейсом приложения</string>
+    <string name="title_artwork_adjustments">Настройки</string>
+    <string name="label_artwork_zoom">Масштаб</string>
+    <string name="label_artwork_opacity">Непрозрачность</string>
+    <string name="label_artwork_blur">Размытие</string>
+    <string name="label_artwork_brightness">Яркость</string>
+    <string name="label_artwork_overlay">Затемнение</string>
+    <string name="action_remove_artwork">Удалить изображение</string>
+    <string name="action_apply">Применить</string>
+    <string name="summary_artwork_hint">Перетащите для смещения, сведите пальцы для масштабирования</string>
+    <string name="title_appearance">Внешний вид</string>
 </resources>

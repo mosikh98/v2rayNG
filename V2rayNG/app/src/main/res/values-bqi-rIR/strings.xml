@@ -562,4 +562,16 @@
     <string name="summary_background_image">ایا عکس ره از دستگاهت انتخاب هاکن که پشت منوی ناوبری نشون هده، یا ایا ره پاک هاکن تا پس‌زمینه‌ی پیش‌فرض استفاده به.</string>
     <string name="summary_background_image_custom">عکس سفارشی ست شده</string>
     <string name="action_choose_image">انتخاب عکس</string>
+    <string name="title_custom_artwork">عکس هنری سفارشی</string>
+    <string name="summary_artwork_no_image">ایا عکس ره انتخاب هاکن تا با UI اپ ترکیب شده ره ببینی</string>
+    <string name="title_artwork_adjustments">تنظیمات</string>
+    <string name="label_artwork_zoom">زوم</string>
+    <string name="label_artwork_opacity">شفافیت</string>
+    <string name="label_artwork_blur">بلور</string>
+    <string name="label_artwork_brightness">روشنایی</string>
+    <string name="label_artwork_overlay">روپوش</string>
+    <string name="action_remove_artwork">پاک هاکردن عکس هنری</string>
+    <string name="action_apply">اعمال</string>
+    <string name="summary_artwork_hint">برا جابجایی بکش، برا زوم دو انگشتی هاکن</string>
+    <string name="title_appearance">ظاهر</string>
 </resources>

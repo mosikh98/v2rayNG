@@ -562,4 +562,16 @@
     <string name="summary_background_image">Chọn một hình ảnh từ thiết bị của bạn để hiển thị phía sau ngăn điều hướng, hoặc xóa nó để dùng nền mặc định.</string>
     <string name="summary_background_image_custom">Đã đặt hình ảnh tùy chỉnh</string>
     <string name="action_choose_image">Chọn hình ảnh</string>
+    <string name="title_custom_artwork">Hình nền tùy chỉnh</string>
+    <string name="summary_artwork_no_image">Chọn một hình ảnh để xem trước kết hợp với giao diện ứng dụng</string>
+    <string name="title_artwork_adjustments">Điều chỉnh</string>
+    <string name="label_artwork_zoom">Thu phóng</string>
+    <string name="label_artwork_opacity">Độ mờ</string>
+    <string name="label_artwork_blur">Làm mờ</string>
+    <string name="label_artwork_brightness">Độ sáng</string>
+    <string name="label_artwork_overlay">Lớp phủ</string>
+    <string name="action_remove_artwork">Xóa hình nền</string>
+    <string name="action_apply">Áp dụng</string>
+    <string name="summary_artwork_hint">Kéo để định vị lại, chụm để thu phóng</string>
+    <string name="title_appearance">Giao diện</string>
 </resources>
